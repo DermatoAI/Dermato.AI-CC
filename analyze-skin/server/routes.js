@@ -9,7 +9,7 @@ const routes = [
       payload: {
         allow: 'multipart/form-data',
         multipart: true,
-        maxBytes: 10 * 1024 * 1024
+        maxBytes: 5 * 1024 * 1024
       },
     }
   }

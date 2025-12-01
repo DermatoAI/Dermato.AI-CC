@@ -12,6 +12,14 @@ const labels = [
   "Urticaria Hives"
 ];
 
+function validateSkinImage(tensor) {
+  const mean = tensor.mean().dataSync()[0];
+
+  if (mean < 30 || mean > 220) {
+    throw new InputError("Invalid image: not a valid skin photo");
+  }
+}
+
 async function predictClassification(model, image) {
   try {
     const tensor = tf.node
@@ -19,6 +27,8 @@ async function predictClassification(model, image) {
         .resizeNearestNeighbor([180, 180]) 
         .expandDims() 
         .toFloat();
+
+    validateSkinImage(tensor);
 
     const prediction = model.predict(tensor);
     const scores = await prediction.data();

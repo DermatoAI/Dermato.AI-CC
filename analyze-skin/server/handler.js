@@ -12,7 +12,14 @@ async function postPredictHandler(request, h) {
     }).code(401);
   }
 
-  if (Buffer.byteLength(image) > 10000000) {  
+  if (!image || image.length === 0) {
+    return h.response({
+      status: 'fail',
+      message: 'Image is required'
+    }).code(400);
+  }
+
+  if (Buffer.byteLength(image) > 5000000) {  
     return h.response({
       status: 'fail',
       message: 'Payload content length greater than maximum allowed: 10000000',
